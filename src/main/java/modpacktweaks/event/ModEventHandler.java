@@ -10,7 +10,7 @@ import modpacktweaks.client.gui.UpdateGui;
 import modpacktweaks.config.ConfigurationHandler;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import tterrag.core.common.util.TTFileUtils;
+import com.enderio.core.common.util.EnderFileUtils;
 
 import com.google.common.collect.ImmutableList;
 
@@ -36,7 +36,7 @@ public class ModEventHandler
 				GuiHelper.updateGui = (UpdateGui) event.gui;
 
                 if (ConfigurationHandler.disableDownloadGuiAfterViewed)
-				    TTFileUtils.manuallyChangeConfigValue("modpackTweaks/" + ConfigurationHandler.cfg.getName(), "B:showDownloadGUI", "true", "false");
+				    EnderFileUtils.manuallyChangeConfigValue("modpackTweaks/" + ConfigurationHandler.cfg.getName(), "B:showDownloadGUI", "true", "false");
 			}
 			else
 			{

@@ -31,14 +31,27 @@ if (new File(projectDir, '.git').exists()) {
 }
 
 repositories {
-	maven { // ttCore
+	maven { // EnderCore
         name = 'tterrag repo'
         url  = 'http://maven.tterrag.com'
     }
+    maven { // NEI
+        url = "http://chickenbones.net/maven/"
+    }
+}
+
+configurations {
+    shade
+    compile.extendsFrom shade
+    compile.extendsFrom exportedCompile
 }
 
 dependencies {
-    compile "tterrag.core:ttCore:MC${mc_version}-${ttCore_version}:deobf"
+    String endercore = "com.enderio.core:EnderCore:${mc_version}-${endercore_version}:dev"
+    compile endercore
+    shade (endercore) {
+        transitive = false
+    }
 }
 
 minecraft {
@@ -81,18 +94,15 @@ task sourceJar(type: Jar) {
     classifier = 'sources'
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    from javadoc.destinationDir
-    classifier = 'javadoc'
-}
-
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
 }
 
-tasks.build.dependsOn sourceJar, javadocJar, deobfJar
+tasks.build.dependsOn sourceJar, deobfJar
 
 tasks.withType(JavaCompile) { task ->
     task.options.encoding = 'UTF-8'
 }
+
+idea { module { inheritOutputDirs = true } }
